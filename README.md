@@ -2,7 +2,7 @@
 
 專案技術  
 Java  
-Spring Boot、Spring Security  Spring Cloud  
+Spring Boot、Spring Security、Spring Cloud  
 Consul  
 Thymeleaf、JavaScript、Jquery、AJAX  
 MySQL、Redis、Hibernate、JPQL、MyBatis  
