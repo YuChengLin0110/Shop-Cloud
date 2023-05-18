@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${pageTitle}">註冊會員</title>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/main.css" />
+
+<!--
+	改為使用CookieCsrfTokenRepository
+	並使用src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"
+	從cookie取得csrf
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+-->
+<!-- 用此種方式取得headerName比較不會出錯 -->
+<!-- <meta name="_csrf_header" th:content="${_csrf.headerName}"/> -->
+</head>
+<body class="is-preload">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<!-- 提供JavaScript 操作Cookie內數值的簡易方法 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
+<script>
+//改為使用CookieCsrfTokenRepository
+//並使用src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"
+//從cookie取得csrf
+//var csrfToken = $("meta[name='_csrf']").attr("content");
+//var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+//var csrfToken = Cookies.get('XSRF-TOKEN');
+
+var accCheck = false;
+var pwdCheck = false;
+
+//設置輸入框有變動就將accCheck設為false
+function accInit(){
+	accCheck = false;
+}
+//檢查帳號是否重複的Ajax
+function checkAccount(){
+	var account = $("#acc").val();
+	//Regular Expression限制輸入
+	var reg = /^[A-Za-z0-9]{4,12}$/;
+	if(!reg.test(account)){
+		alert("帳號格式錯誤，請輸入4~12個英文數字")
+	}else{
+
+	$.ajax({
+		url:"/checkAccount",
+		type:"POST",
+		dataType:"json",
+		cache:"false",
+		data:{"account":account},		
+//		beforeSend: function(xhr){
+//			xhr.setRequestHeader(csrfHeader, csrfToken);
+//		},
+		success:function(isExist){
+			if(isExist == true){
+				alert("帳號已存在");
+				accCheck = false;
+			}else{
+				alert("帳號可使用");
+				accCheck = true;
+			}
+		}
+	})
+	}
+}
+//檢查兩次密碼是否輸入正確
+function checkPwd() {
+    	if (pwd.value == pwdC.value) {
+        	$("#pwdCT").css("visibility","hidden");
+        	pwdCheck = true;
+        	}else{
+        		$("#pwdCT").css("visibility","visible");
+        		pwdCheck = false;
+        }
+	}
+
+
+//Regular Expression限制輸入
+function checkPwdReg(){
+	var password = $("#pwd").val();
+	var reg = /^[A-Za-z0-9]{4,12}$/;
+	if(!reg.test(password)){
+		$("#pwdSpan").css("visibility","visible");
+	}else{
+		$("#pwdSpan").css("visibility","hidden");
+	}
+	
+}
+
+//確認帳號與密碼都通過驗證
+function registerCheck(accCheck , pwdCheck , pwdRegCheck){
+	if(accCheck == true && pwdCheck == true){
+		alert("註冊成功");
+
+		return true;
+	}else{
+		alert("註冊失敗");
+
+		return false;
+	}
+}
+
+</script>
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Header -->
+
+            <header id="header"><strong>首頁>會員註冊</strong>
+                <marquee direction="left" height="30" scrollamount="5" style="color:red;"></marquee>
+            </header>
+
+            <!-- Banner -->
+            <section id="banner"> <!-- Form -->
+                <form method="post" action="register" onsubmit="return registerCheck(accCheck , pwdCheck)">
+               <!--   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">   -->
+                    <div class="row gtr-uniform">
+                    <div class="col-12">
+                    
+                        <ul class="actions">
+                            <li><input type="button" value="檢查帳號" class="primary" onclick="checkAccount()"/></li>
+                        </ul>
+                    </div>
+                        <div class="col-12 col-12-xsmall">
+                            <input type="text" id="acc" name="valUser" placeholder="帳號" minlength="4" maxlength="12" oninput="accInit()"
+                                   pattern="^[A-Za-z0-9]{4,12}$" required />
+                        </div>
+                        <div class="col-12 col-12-xsmall">
+                        <span id="pwdSpan" style="color:red; visibility:hidden;">*密碼格式錯誤，請輸入4~12位英文數字</span> 
+                            <input type="password" id="pwd" name="valPwd"
+                                   placeholder="密碼(4~12個字)" minlength="4" maxlength="12" oninput="checkPwd(); checkPwdReg();" pattern="^[A-Za-z0-9]{4,12}$" required />
+                        </div>
+                        <div class="col-12 col-12-xsmall">
+                        <span id="pwdCT" style="color:red; visibility:hidden;">*密碼與確認密碼不符</span>                         
+                            <input type="password" id="pwdC" name="valPwdCheck"
+                                   placeholder="確認密碼(4~12個字)" minlength="4" maxlength="12" oninput="checkPwd()" pattern="^[A-Za-z0-9]{4,12}$" required />
+                        </div>
+                        <div class="col-12 col-12-xsmall">
+                            <input type="text" id="name" name="valName" placeholder="姓名"
+                                   required />
+                        </div>
+                        <div class="col-12 col-12-xsmall">
+                            <input type="text" id="addr" name="valAddr" placeholder="住址"
+                                   required />
+                        </div>
+                        <div class="col-12 col-12-xsmall">
+                            <input type="text" id="tel" name="valTel"
+                                   placeholder="聯絡電話" required />
+                        </div>
+                        <div class="col-12 col-12-xsmall">
+                            <input type="email" id="email" name="valEmail"
+                                   placeholder="Email" required />
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-12">
+                        <ul class="actions">
+                            <li><input type="submit" value="註冊" class="primary" /></li>
+                            <li><input type="reset" value="清空	" /></li>
+                        </ul>
+                    </div>
+                </form>
+                <!-- Break --> </section>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div class="inner">
+
+            <!-- Search -->
+            <section> <header>
+                <h2>shop</h2>
+            </header> </section>
+
+            <!-- Menu -->
+            <nav id="menu">
+                <header class="major">
+                    <h2>Menu</h2>
+                </header>
+                <ul th:replace = "menu :: menu">
+                    
+                </ul>
+            </nav>
+
+            <!-- Footer -->
+            <footer id="footer">
+                <div></div>
+                <p class="copyright">&copy; Untitled. All rights reserved.</p>
+            </footer>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+
+
+</script>
+
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+</html>

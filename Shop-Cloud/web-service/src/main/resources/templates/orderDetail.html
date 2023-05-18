@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${pageTitle}">item</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+</head>
+<body class="is-preload">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Header -->
+
+            <header id="header">
+                
+                <marquee direction="left" height="30" scrollamount="5" style="color:red;"></marquee>
+            </header>
+            <br>
+            <div class="table-wrapper">
+				<form method="post" th:action="@{/ecpayCheckOut}" >
+                <table class="alt">
+                    <thead>
+                    <tr>
+                        <th class="sort"><a class="logo" href=""><strong>訂單編號</strong></a></th>
+                        <th class="sort"><a class="logo" href=""><strong>圖片</strong></a></th>
+                        <th class="sort"><a class="logo" href=""><strong>購買單價</strong></a></th>
+                        <th class="sort"><a class="logo" href=""><strong>數量</strong></a></th>
+                        <th class="sort"><a class="logo" href=""><strong>日期</strong></a></th>
+                        <th class="sort"><a class="logo" href=""><strong>狀態</strong></a></th>
+                    </tr>
+                    </thead>
+
+                    <tr th:each="orderDetailVO, iterStat:${orderDetailVO}">
+                    <td style="vertical-align: middle;" width="120"><a class="logo" id="orderNumber" ><strong th:text="${orderDetailVO.order_number}" ></strong></a></td>
+					
+					<td style="width: 123px; height: 124px;"><a
+                                href="" class="image"><img th:src="@{${orderDetailVO.image}}"
+                            alt="productIMG" height="100" /></a></td>
+                    <td th:text="${orderDetailVO.price}" style="vertical-align: middle;" width="70"></td>
+                    <td th:text="${orderDetailVO.quantity}" style="vertical-align: middle;" width="70"></td>
+                    <td th:text="${orderDetailVO.create_date}" style="vertical-align: middle;" width="50"></td>
+                    <td th:text="${orderDetailVO.status == 1? '已付款':'未付款'}" style="vertical-align: middle;" width="50"></td>
+				 	<td th:if="${iterStat.first}" style="display: none;"><input type="hidden" name="orderNumber" th:value="${orderDetailVO.order_number}"></td>
+                    </tr>
+                </table>
+                	<input type="submit" th:value="${status == 1 ? '已付款':'付款'}" th:disabled="${status == 1}">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div class="inner">
+
+            <!-- Search -->
+            <section>
+                <header>
+                    <h2>Shop</h2>
+                </header>
+            </section>
+
+            <!-- Menu -->
+            <nav id="menu">
+                <header class="major">
+                    <h2>Menu</h2>
+                </header>
+                <ul th:replace = "menu :: menu">
+                    
+                </ul>
+            </nav>
+
+            <!-- Footer -->
+            <footer id="footer">
+                
+                <p class="copyright">&copy; Untitled. All rights reserved.</p>
+            </footer>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+</html>
