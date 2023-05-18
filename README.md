@@ -3,7 +3,7 @@
 專案技術  
 Java  
 Spring Boot、Spring Security  Spring Cloud  
-Consul
+Consul  
 Thymeleaf、JavaScript、Jquery、AJAX  
 MySQL、Redis、Hibernate、JPQL、MyBatis  
 綠界金流Ecpay
