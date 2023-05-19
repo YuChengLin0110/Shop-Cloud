@@ -8,7 +8,7 @@ Thymeleaf、JavaScript、Jquery、AJAX
 MySQL、Redis、Hibernate、JPQL、MyBatis  
 綠界金流Ecpay
 
-功能簡介
+功能簡介  
 以Consul管理各項service  
 Feign調用  
 ![image](demonstration/Consul.jpg)  
