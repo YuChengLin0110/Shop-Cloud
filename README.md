@@ -3,13 +3,14 @@
 專案技術  
 Java  
 Spring Boot、Spring Security、Spring Cloud  
-Consul  
+Consul、Feign
 Thymeleaf、JavaScript、Jquery、AJAX  
 MySQL、Redis、Hibernate、JPQL、MyBatis  
 綠界金流Ecpay
 
 功能簡介
 以Consul管理各項service  
+Feign調用  
 ![image](demonstration/Consul.jpg)  
 
 註冊
