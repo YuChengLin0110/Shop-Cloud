@@ -1,6 +1,13 @@
+本專案為2023年學習 Spring Boot 時所完成的練習作品，目前已停止維護。  
+專案中的部分寫法可能與現行最佳實踐有所不同，但仍保留作為早期學習與實作經驗的紀錄。
+
+This is a practice project from 2023 when I was learning Spring Boot.  
+It's no longer updated, and some code might not match today’s best practices.  
+Still, I keep it here as a record of early learning and development experience.
+
 # Shop-Cloud
 
-專案技術  
+## 專案技術  
 Java  
 Spring Boot、Spring Security、Spring Cloud  
 Consul、Feign
@@ -8,7 +15,7 @@ Thymeleaf、JavaScript、Jquery、AJAX
 MySQL、Redis、Hibernate、JPQL、MyBatis  
 綠界金流Ecpay
 
-功能簡介  
+## 功能簡介  
 以Consul管理各項service  
 Feign調用  
 ![image](demonstration/Consul.jpg)  
